@@ -33,21 +33,27 @@ const ChatBox = () => {
   };
 
   return (
-    <div className="glass rounded-3xl overflow-hidden shadow-accent h-full flex flex-col">
+    <div className="glass-card h-full flex flex-col animate-scaleIn" role="complementary" aria-label="Live chat">
       {/* Header */}
       <div className="px-6 py-4 border-b border-glass-border">
         <h3 className="text-xl font-bold">Live Chat</h3>
-        <p className="text-sm text-muted-foreground">1,247 viewers active</p>
+        <p className="text-sm text-muted-foreground" role="status" aria-live="polite">1,247 viewers active</p>
       </div>
 
       {/* Messages */}
-      <div className="flex-1 overflow-y-auto p-6 space-y-4 scrollbar-thin scrollbar-thumb-glass-border scrollbar-track-transparent">
+      <div 
+        className="flex-1 overflow-y-auto p-6 space-y-4 scrollbar-thin scrollbar-thumb-glass-border scrollbar-track-transparent"
+        role="log"
+        aria-live="polite"
+        aria-label="Chat messages"
+      >
         {messages.map((msg) => (
-          <div key={msg.id} className="animate-fadeIn">
+          <div key={msg.id} className="message-enter">
             <div className="flex items-start gap-3">
               <div
                 className="w-10 h-10 rounded-full flex items-center justify-center font-bold text-sm"
                 style={{ background: msg.color }}
+                aria-hidden="true"
               >
                 {msg.user[0]}
               </div>
@@ -64,10 +70,13 @@ const ChatBox = () => {
       </div>
 
       {/* Input */}
-      <div className="p-4 border-t border-glass-border">
+      <div className="p-4 border-t border-glass-border" role="form" aria-label="Send message">
         <div className="flex gap-2">
-          <button className="w-10 h-10 rounded-full glass glass-hover flex items-center justify-center hover:scale-105 transition-transform">
-            <Smile className="w-5 h-5" />
+          <button 
+            aria-label="Add emoji"
+            className="w-10 h-10 rounded-full glass glass-hover flex items-center justify-center btn-interactive focus-ring"
+          >
+            <Smile className="w-5 h-5" aria-hidden="true" />
           </button>
           <input
             type="text"
@@ -75,14 +84,16 @@ const ChatBox = () => {
             onChange={(e) => setMessage(e.target.value)}
             onKeyPress={(e) => e.key === "Enter" && handleSend()}
             placeholder="Type a message..."
-            className="flex-1 px-4 py-2 rounded-full glass border border-glass-border bg-transparent focus:outline-none focus:ring-2 focus:ring-primary"
+            aria-label="Chat message"
+            className="flex-1 px-4 py-2 rounded-full glass border border-glass-border bg-transparent focus-ring transition-smooth"
           />
           <button
             onClick={handleSend}
             disabled={!message.trim()}
-            className="w-10 h-10 rounded-full gradient-primary flex items-center justify-center hover:scale-105 transition-transform shadow-primary disabled:opacity-50 disabled:cursor-not-allowed"
+            aria-label="Send message"
+            className="w-10 h-10 rounded-full gradient-primary flex items-center justify-center btn-interactive shadow-primary disabled:opacity-50 disabled:cursor-not-allowed focus-ring"
           >
-            <Send className="w-5 h-5" />
+            <Send className="w-5 h-5" aria-hidden="true" />
           </button>
         </div>
       </div>

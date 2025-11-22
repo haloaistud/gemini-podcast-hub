@@ -8,24 +8,24 @@ const Index = () => {
   const [activeRole, setActiveRole] = useState<"listener" | "broadcaster" | "admin" | null>(null);
 
   return (
-    <div className="min-h-screen">
+    <div className="min-h-screen" lang="en">
       <div className="container max-w-[1800px] mx-auto px-4 py-6">
         <Header activeRole={activeRole} onRoleSelect={setActiveRole} />
 
         {/* Content based on role */}
         {activeRole === "listener" && (
-          <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 animate-fadeIn">
+          <main className="grid grid-cols-1 lg:grid-cols-3 gap-6 animate-fadeIn" id="main-content">
             <div className="lg:col-span-2">
               <StreamPlayer />
             </div>
             <div className="h-[600px]">
               <ChatBox />
             </div>
-          </div>
+          </main>
         )}
 
         {activeRole === "broadcaster" && (
-          <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 animate-fadeIn">
+          <main className="grid grid-cols-1 lg:grid-cols-3 gap-6 animate-fadeIn" id="main-content">
             <div className="lg:col-span-2 space-y-6">
               <StreamPlayer isLive={true} viewerCount={1247} />
               <Dashboard />
@@ -33,11 +33,11 @@ const Index = () => {
             <div className="h-[600px]">
               <ChatBox />
             </div>
-          </div>
+          </main>
         )}
 
         {activeRole === "admin" && (
-          <div className="animate-fadeIn">
+          <main className="animate-fadeIn" id="main-content">
             <Dashboard />
             <div className="mt-6 grid grid-cols-1 lg:grid-cols-2 gap-6">
               <div className="glass rounded-3xl p-6 shadow-primary">
@@ -93,18 +93,18 @@ const Index = () => {
                 </div>
               </div>
             </div>
-          </div>
+          </main>
         )}
 
         {!activeRole && (
-          <div className="text-center py-20 animate-fadeIn">
+          <main className="text-center py-20 animate-fadeIn" id="main-content">
             <div className="glass rounded-3xl p-12 max-w-2xl mx-auto">
               <h2 className="text-3xl font-bold mb-4">Choose Your Role</h2>
               <p className="text-lg text-muted-foreground">
                 Select a role above to access the platform features
               </p>
             </div>
-          </div>
+          </main>
         )}
       </div>
     </div>
