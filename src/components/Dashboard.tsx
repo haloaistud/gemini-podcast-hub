@@ -9,8 +9,8 @@ interface StatCardProps {
 
 const StatCard = ({ icon, label, value, gradient }: StatCardProps) => {
   return (
-    <div className="glass rounded-2xl p-6 hover:scale-105 transition-transform duration-300 shadow-primary">
-      <div className={`w-12 h-12 rounded-xl ${gradient} flex items-center justify-center mb-4 shadow-primary`}>
+    <div className="glass-card animate-fadeIn" role="article" aria-label={label}>
+      <div className={`w-12 h-12 rounded-xl ${gradient} flex items-center justify-center mb-4 shadow-primary`} aria-hidden="true">
         {icon}
       </div>
       <div className="text-3xl font-bold mb-1">{value}</div>
@@ -21,9 +21,9 @@ const StatCard = ({ icon, label, value, gradient }: StatCardProps) => {
 
 const Dashboard = () => {
   return (
-    <div className="space-y-6">
+    <div className="space-y-6" id="main-content">
       {/* Stats Grid */}
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+      <section className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4" aria-label="Statistics">
         <StatCard
           icon={<Users className="w-6 h-6" />}
           label="Active Listeners"
@@ -48,10 +48,10 @@ const Dashboard = () => {
           value="94%"
           gradient="gradient-success"
         />
-      </div>
+      </section>
 
       {/* Recent Activity */}
-      <div className="glass rounded-3xl p-6 shadow-accent">
+      <section className="glass-card animate-scaleIn" aria-label="Recent activity">
         <h3 className="text-xl font-bold mb-4">Recent Activity</h3>
         <div className="space-y-3">
           {[
@@ -82,26 +82,26 @@ const Dashboard = () => {
             </div>
           ))}
         </div>
-      </div>
+      </section>
 
       {/* Quick Actions */}
-      <div className="glass rounded-3xl p-6 shadow-secondary">
+      <section className="glass-card animate-scaleIn" aria-label="Quick actions">
         <h3 className="text-xl font-bold mb-4">Quick Actions</h3>
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
-          <button className="p-4 rounded-xl gradient-primary hover:scale-105 transition-transform shadow-primary font-semibold">
+        <nav className="grid grid-cols-2 md:grid-cols-4 gap-3" role="navigation">
+          <button className="p-4 rounded-xl gradient-primary btn-interactive shadow-primary font-semibold focus-ring" aria-label="Start stream">
             Start Stream
           </button>
-          <button className="p-4 rounded-xl gradient-secondary hover:scale-105 transition-transform shadow-secondary font-semibold">
+          <button className="p-4 rounded-xl gradient-secondary btn-interactive shadow-secondary font-semibold focus-ring" aria-label="Schedule broadcast">
             Schedule
           </button>
-          <button className="p-4 rounded-xl gradient-accent hover:scale-105 transition-transform shadow-accent font-semibold">
+          <button className="p-4 rounded-xl gradient-accent btn-interactive shadow-accent font-semibold focus-ring" aria-label="View analytics">
             Analytics
           </button>
-          <button className="p-4 rounded-xl gradient-success hover:scale-105 transition-transform font-semibold">
+          <button className="p-4 rounded-xl gradient-success btn-interactive font-semibold focus-ring" aria-label="Open settings">
             Settings
           </button>
-        </div>
-      </div>
+        </nav>
+      </section>
     </div>
   );
 };

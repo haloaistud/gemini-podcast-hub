@@ -156,6 +156,167 @@
     0%, 100% { box-shadow: 0 0 20px hsl(var(--live-glow) / 0.5); }
     50% { box-shadow: 0 0 30px hsl(var(--live-glow) / 0.8); }
   }
+
+  /* Slide animations */
+  @keyframes slideInLeft {
+    from { transform: translateX(-100%); opacity: 0; }
+    to { transform: translateX(0); opacity: 1; }
+  }
+
+  @keyframes slideInRight {
+    from { transform: translateX(100%); opacity: 0; }
+    to { transform: translateX(0); opacity: 1; }
+  }
+
+  @keyframes slideInUp {
+    from { transform: translateY(20px); opacity: 0; }
+    to { transform: translateY(0); opacity: 1; }
+  }
+
+  /* Scale animations */
+  @keyframes scaleIn {
+    from { transform: scale(0.9); opacity: 0; }
+    to { transform: scale(1); opacity: 1; }
+  }
+
+  /* Bounce animation */
+  @keyframes bounce {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-10px); }
+  }
+
+  /* Shimmer animation for loading states */
+  @keyframes shimmer {
+    0% { background-position: -1000px 0; }
+    100% { background-position: 1000px 0; }
+  }
+}
+
+@layer components {
+  /* Glassmorphism utilities */
+  .glass-card {
+    @apply glass rounded-2xl p-6 transition-all duration-300;
+  }
+
+  .glass-card:hover {
+    @apply glass-hover shadow-primary scale-[1.02];
+  }
+
+  /* Interactive button base */
+  .btn-interactive {
+    @apply transition-all duration-300 ease-out;
+    @apply hover:scale-105 active:scale-95;
+    @apply focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2;
+  }
+
+  /* Card hover effects */
+  .card-hover {
+    @apply transition-all duration-300;
+    @apply hover:shadow-2xl hover:-translate-y-1;
+  }
+
+  /* Smooth transitions */
+  .transition-smooth {
+    @apply transition-all duration-300 ease-in-out;
+  }
+
+  /* Focus states for accessibility */
+  .focus-ring {
+    @apply focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 focus-visible:ring-offset-background;
+  }
+
+  /* Loading shimmer effect */
+  .shimmer {
+    background: linear-gradient(90deg, transparent, hsl(var(--foreground) / 0.05), transparent);
+    background-size: 1000px 100%;
+    animation: shimmer 2s infinite;
+  }
+
+  /* Gradient text utilities */
+  .text-gradient-primary {
+    @apply gradient-primary bg-clip-text text-transparent;
+  }
+
+  .text-gradient-secondary {
+    @apply gradient-secondary bg-clip-text text-transparent;
+  }
+
+  .text-gradient-accent {
+    @apply gradient-accent bg-clip-text text-transparent;
+  }
+
+  /* Responsive video container */
+  .video-container {
+    @apply relative w-full overflow-hidden rounded-2xl;
+    padding-bottom: 56.25%; /* 16:9 aspect ratio */
+  }
+
+  .video-container > * {
+    @apply absolute inset-0 w-full h-full object-cover;
+  }
+
+  /* Sidebar utilities */
+  .sidebar {
+    @apply fixed left-0 top-0 h-full glass border-r border-glass-border;
+    @apply transition-transform duration-300 ease-in-out;
+    @apply z-40;
+  }
+
+  .sidebar.collapsed {
+    @apply -translate-x-full lg:translate-x-0 lg:w-20;
+  }
+
+  .sidebar.expanded {
+    @apply translate-x-0 w-64;
+  }
+
+  /* Chat message animations */
+  .message-enter {
+    animation: slideInUp 0.3s ease-out;
+  }
+
+  /* Live indicator pulse */
+  .live-indicator {
+    @apply relative;
+  }
+
+  .live-indicator::before {
+    content: '';
+    @apply absolute inset-0 rounded-full bg-live;
+    animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+  }
+
+  /* Tooltip */
+  .tooltip {
+    @apply glass px-3 py-1.5 rounded-lg text-sm;
+    @apply opacity-0 invisible transition-all duration-200;
+    @apply absolute z-50 pointer-events-none;
+  }
+
+  .tooltip-trigger:hover .tooltip {
+    @apply opacity-100 visible;
+  }
+
+  /* Accessibility - Skip to content */
+  .skip-to-content {
+    @apply absolute -top-full left-0 bg-primary text-primary-foreground px-4 py-2 rounded;
+    @apply transition-all duration-200;
+  }
+
+  .skip-to-content:focus {
+    @apply top-4 focus-ring;
+  }
+
+  /* Reduced motion support */
+  @media (prefers-reduced-motion: reduce) {
+    *,
+    *::before,
+    *::after {
+      animation-duration: 0.01ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.01ms !important;
+    }
+  }
 }
 
 @layer base {
