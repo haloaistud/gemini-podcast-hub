@@ -6,6 +6,9 @@ import ChatBox from "@/components/ChatBox";
 import Dashboard from "@/components/Dashboard";
 import AdminPanel from "@/components/AdminPanel";
 import Auth from "@/components/Auth";
+import ChannelManager from "@/components/ChannelManager";
+import LiveDirectory from "@/components/LiveDirectory";
+import LiveChat from "@/components/LiveChat";
 
 const Index = () => {
   const [activeRole, setActiveRole] = useState<"listener" | "broadcaster" | "admin" | null>(null);
@@ -93,25 +96,17 @@ const Index = () => {
 
         {/* Content based on role */}
         {activeRole === "listener" && (
-          <main className="grid grid-cols-1 lg:grid-cols-3 gap-6 animate-fadeIn" id="main-content">
-            <div className="lg:col-span-2">
-              <StreamPlayer />
-            </div>
-            <div className="h-[600px]">
-              <ChatBox />
+          <main className="animate-fadeIn" id="main-content">
+            <div className="mb-6">
+              <h2 className="text-2xl font-bold mb-4">Live Now</h2>
+              <LiveDirectory />
             </div>
           </main>
         )}
 
         {activeRole === "broadcaster" && (
-          <main className="grid grid-cols-1 lg:grid-cols-3 gap-6 animate-fadeIn" id="main-content">
-            <div className="lg:col-span-2 space-y-6">
-              <StreamPlayer isLive={true} viewerCount={1247} />
-              <Dashboard />
-            </div>
-            <div className="h-[600px]">
-              <ChatBox />
-            </div>
+          <main className="animate-fadeIn" id="main-content">
+            <ChannelManager />
           </main>
         )}
 
