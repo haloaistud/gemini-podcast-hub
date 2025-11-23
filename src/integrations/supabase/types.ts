@@ -14,16 +14,296 @@ export type Database = {
   }
   public: {
     Tables: {
-      [_ in never]: never
+      channels: {
+        Row: {
+          banner_url: string | null
+          category: Database["public"]["Enums"]["content_category"] | null
+          channel_name: string
+          created_at: string | null
+          current_viewers: number | null
+          description: string | null
+          display_name: string
+          id: string
+          is_live: boolean | null
+          stream_key: string
+          subscriber_count: number | null
+          thumbnail_url: string | null
+          updated_at: string | null
+          user_id: string
+        }
+        Insert: {
+          banner_url?: string | null
+          category?: Database["public"]["Enums"]["content_category"] | null
+          channel_name: string
+          created_at?: string | null
+          current_viewers?: number | null
+          description?: string | null
+          display_name: string
+          id?: string
+          is_live?: boolean | null
+          stream_key: string
+          subscriber_count?: number | null
+          thumbnail_url?: string | null
+          updated_at?: string | null
+          user_id: string
+        }
+        Update: {
+          banner_url?: string | null
+          category?: Database["public"]["Enums"]["content_category"] | null
+          channel_name?: string
+          created_at?: string | null
+          current_viewers?: number | null
+          description?: string | null
+          display_name?: string
+          id?: string
+          is_live?: boolean | null
+          stream_key?: string
+          subscriber_count?: number | null
+          thumbnail_url?: string | null
+          updated_at?: string | null
+          user_id?: string
+        }
+        Relationships: []
+      }
+      clips: {
+        Row: {
+          channel_id: string | null
+          created_at: string | null
+          description: string | null
+          duration: number | null
+          end_time: number | null
+          id: string
+          likes: number | null
+          podcast_id: string | null
+          start_time: number | null
+          title: string
+          user_id: string
+          video_url: string
+          views: number | null
+        }
+        Insert: {
+          channel_id?: string | null
+          created_at?: string | null
+          description?: string | null
+          duration?: number | null
+          end_time?: number | null
+          id?: string
+          likes?: number | null
+          podcast_id?: string | null
+          start_time?: number | null
+          title: string
+          user_id: string
+          video_url: string
+          views?: number | null
+        }
+        Update: {
+          channel_id?: string | null
+          created_at?: string | null
+          description?: string | null
+          duration?: number | null
+          end_time?: number | null
+          id?: string
+          likes?: number | null
+          podcast_id?: string | null
+          start_time?: number | null
+          title?: string
+          user_id?: string
+          video_url?: string
+          views?: number | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "clips_channel_id_fkey"
+            columns: ["channel_id"]
+            isOneToOne: false
+            referencedRelation: "channels"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "clips_podcast_id_fkey"
+            columns: ["podcast_id"]
+            isOneToOne: false
+            referencedRelation: "podcasts"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      podcasts: {
+        Row: {
+          audio_url: string
+          channel_id: string
+          created_at: string | null
+          description: string | null
+          duration: number | null
+          episode_number: number | null
+          id: string
+          is_published: boolean | null
+          likes: number | null
+          published_at: string | null
+          season_number: number | null
+          tags: string[] | null
+          title: string
+          updated_at: string | null
+          user_id: string
+          views: number | null
+        }
+        Insert: {
+          audio_url: string
+          channel_id: string
+          created_at?: string | null
+          description?: string | null
+          duration?: number | null
+          episode_number?: number | null
+          id?: string
+          is_published?: boolean | null
+          likes?: number | null
+          published_at?: string | null
+          season_number?: number | null
+          tags?: string[] | null
+          title: string
+          updated_at?: string | null
+          user_id: string
+          views?: number | null
+        }
+        Update: {
+          audio_url?: string
+          channel_id?: string
+          created_at?: string | null
+          description?: string | null
+          duration?: number | null
+          episode_number?: number | null
+          id?: string
+          is_published?: boolean | null
+          likes?: number | null
+          published_at?: string | null
+          season_number?: number | null
+          tags?: string[] | null
+          title?: string
+          updated_at?: string | null
+          user_id?: string
+          views?: number | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "podcasts_channel_id_fkey"
+            columns: ["channel_id"]
+            isOneToOne: false
+            referencedRelation: "channels"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      profiles: {
+        Row: {
+          avatar_url: string | null
+          bio: string | null
+          created_at: string | null
+          display_name: string | null
+          id: string
+          last_login_at: string | null
+          updated_at: string | null
+          username: string
+          verified: boolean | null
+        }
+        Insert: {
+          avatar_url?: string | null
+          bio?: string | null
+          created_at?: string | null
+          display_name?: string | null
+          id: string
+          last_login_at?: string | null
+          updated_at?: string | null
+          username: string
+          verified?: boolean | null
+        }
+        Update: {
+          avatar_url?: string | null
+          bio?: string | null
+          created_at?: string | null
+          display_name?: string | null
+          id?: string
+          last_login_at?: string | null
+          updated_at?: string | null
+          username?: string
+          verified?: boolean | null
+        }
+        Relationships: []
+      }
+      subscriptions: {
+        Row: {
+          channel_id: string
+          id: string
+          subscribed_at: string | null
+          user_id: string
+        }
+        Insert: {
+          channel_id: string
+          id?: string
+          subscribed_at?: string | null
+          user_id: string
+        }
+        Update: {
+          channel_id?: string
+          id?: string
+          subscribed_at?: string | null
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "subscriptions_channel_id_fkey"
+            columns: ["channel_id"]
+            isOneToOne: false
+            referencedRelation: "channels"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      user_roles: {
+        Row: {
+          created_at: string | null
+          id: string
+          role: Database["public"]["Enums"]["app_role"]
+          user_id: string
+        }
+        Insert: {
+          created_at?: string | null
+          id?: string
+          role: Database["public"]["Enums"]["app_role"]
+          user_id: string
+        }
+        Update: {
+          created_at?: string | null
+          id?: string
+          role?: Database["public"]["Enums"]["app_role"]
+          user_id?: string
+        }
+        Relationships: []
+      }
     }
     Views: {
       [_ in never]: never
     }
     Functions: {
-      [_ in never]: never
+      has_role: {
+        Args: {
+          _role: Database["public"]["Enums"]["app_role"]
+          _user_id: string
+        }
+        Returns: boolean
+      }
     }
     Enums: {
-      [_ in never]: never
+      app_role: "listener" | "broadcaster" | "admin"
+      content_category:
+        | "technology"
+        | "business"
+        | "gaming"
+        | "music"
+        | "education"
+        | "entertainment"
+        | "news"
+        | "sports"
+        | "other"
     }
     CompositeTypes: {
       [_ in never]: never
@@ -150,6 +430,19 @@ export type CompositeTypes<
 
 export const Constants = {
   public: {
-    Enums: {},
+    Enums: {
+      app_role: ["listener", "broadcaster", "admin"],
+      content_category: [
+        "technology",
+        "business",
+        "gaming",
+        "music",
+        "education",
+        "entertainment",
+        "news",
+        "sports",
+        "other",
+      ],
+    },
   },
 } as const

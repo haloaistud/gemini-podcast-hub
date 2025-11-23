@@ -1,16 +1,95 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import { supabase } from "@/integrations/supabase/client";
 import Header from "@/components/Header";
 import StreamPlayer from "@/components/StreamPlayer";
 import ChatBox from "@/components/ChatBox";
 import Dashboard from "@/components/Dashboard";
+import AdminPanel from "@/components/AdminPanel";
+import Auth from "@/components/Auth";
 
 const Index = () => {
   const [activeRole, setActiveRole] = useState<"listener" | "broadcaster" | "admin" | null>(null);
+  const [user, setUser] = useState<any>(null);
+  const [userRole, setUserRole] = useState<string | null>(null);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    checkUser();
+    
+    const { data: { subscription } } = supabase.auth.onAuthStateChange((_event, session) => {
+      if (session?.user) {
+        setUser(session.user);
+        loadUserRole(session.user.id);
+      } else {
+        setUser(null);
+        setUserRole(null);
+        setActiveRole(null);
+      }
+    });
+
+    return () => subscription.unsubscribe();
+  }, []);
+
+  const checkUser = async () => {
+    const { data: { session } } = await supabase.auth.getSession();
+    if (session?.user) {
+      setUser(session.user);
+      await loadUserRole(session.user.id);
+    }
+    setLoading(false);
+  };
+
+  const loadUserRole = async (userId: string) => {
+    const { data } = await supabase
+      .from('user_roles')
+      .select('role')
+      .eq('user_id', userId)
+      .single();
+    
+    if (data) {
+      setUserRole(data.role);
+      // Auto-select role based on user's role
+      if (data.role === 'admin') {
+        setActiveRole('admin');
+      } else if (data.role === 'broadcaster') {
+        setActiveRole('broadcaster');
+      } else {
+        setActiveRole('listener');
+      }
+    }
+  };
+
+  const handleSignOut = async () => {
+    await supabase.auth.signOut();
+    setUser(null);
+    setUserRole(null);
+    setActiveRole(null);
+  };
+
+  if (loading) {
+    return (
+      <div className="min-h-screen flex items-center justify-center">
+        <div className="text-center">
+          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-primary mx-auto"></div>
+          <p className="mt-4 text-muted-foreground">Loading...</p>
+        </div>
+      </div>
+    );
+  }
+
+  if (!user) {
+    return <Auth onSuccess={checkUser} />;
+  }
 
   return (
     <div className="min-h-screen" lang="en">
       <div className="container max-w-[1800px] mx-auto px-4 py-6">
-        <Header activeRole={activeRole} onRoleSelect={setActiveRole} />
+        <Header 
+          activeRole={activeRole} 
+          onRoleSelect={setActiveRole}
+          userRole={userRole}
+          onSignOut={handleSignOut}
+        />
 
         {/* Content based on role */}
         {activeRole === "listener" && (
@@ -38,61 +117,7 @@ const Index = () => {
 
         {activeRole === "admin" && (
           <main className="animate-fadeIn" id="main-content">
-            <Dashboard />
-            <div className="mt-6 grid grid-cols-1 lg:grid-cols-2 gap-6">
-              <div className="glass rounded-3xl p-6 shadow-primary">
-                <h3 className="text-xl font-bold mb-4">System Status</h3>
-                <div className="space-y-3">
-                  {[
-                    { service: "Stream Server", status: "Operational", color: "gradient-success" },
-                    { service: "Chat Service", status: "Operational", color: "gradient-success" },
-                    { service: "CDN", status: "High Load", color: "gradient-warning" },
-                    { service: "Database", status: "Operational", color: "gradient-success" },
-                  ].map((item, index) => (
-                    <div
-                      key={index}
-                      className="flex items-center justify-between p-4 rounded-xl glass-hover"
-                    >
-                      <span className="font-medium">{item.service}</span>
-                      <span className={`px-3 py-1 rounded-full text-sm font-semibold ${item.color}`}>
-                        {item.status}
-                      </span>
-                    </div>
-                  ))}
-                </div>
-              </div>
-
-              <div className="glass rounded-3xl p-6 shadow-accent">
-                <h3 className="text-xl font-bold mb-4">User Management</h3>
-                <div className="space-y-3">
-                  {[
-                    { name: "Sarah Miller", role: "Broadcaster", status: "Live" },
-                    { name: "Mike Johnson", role: "Moderator", status: "Active" },
-                    { name: "Jessica Lee", role: "Broadcaster", status: "Offline" },
-                    { name: "Alex Wong", role: "Premium User", status: "Active" },
-                  ].map((user, index) => (
-                    <div
-                      key={index}
-                      className="flex items-center justify-between p-4 rounded-xl glass-hover"
-                    >
-                      <div>
-                        <div className="font-medium">{user.name}</div>
-                        <div className="text-sm text-muted-foreground">{user.role}</div>
-                      </div>
-                      <div
-                        className={`w-2 h-2 rounded-full ${
-                          user.status === "Live"
-                            ? "bg-live animate-glow"
-                            : user.status === "Active"
-                            ? "bg-success"
-                            : "bg-muted"
-                        }`}
-                      />
-                    </div>
-                  ))}
-                </div>
-              </div>
-            </div>
+            <AdminPanel />
           </main>
         )}
 
