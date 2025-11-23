@@ -24,13 +24,32 @@ const AdminPanel = () => {
 
   const loadAdminData = async () => {
     try {
-      // Load basic stats
-      const [usersCount, channelsCount, liveChannelsCount, podcastsCount] = await Promise.all([
-        supabase.from('profiles').select('*', { count: 'exact', head: true }),
-        supabase.from('channels').select('*', { count: 'exact', head: true }),
-        supabase.from('channels').select('*', { count: 'exact', head: true }).eq('is_live', true),
-        supabase.from('podcasts').select('*', { count: 'exact', head: true })
-      ]);
+      const { data: { session } } = await supabase.auth.getSession();
+      if (!session) return;
+
+      // Load stats from edge function
+      const response = await fetch(
+        `${import.meta.env.VITE_SUPABASE_URL}/functions/v1/admin-stats`,
+        {
+          headers: {
+            'Authorization': `Bearer ${session.access_token}`,
+          },
+        }
+      );
+
+      const result = await response.json();
+      
+      if (result.success && result.data) {
+        setStats({
+          totalUsers: result.data.totalUsers || 0,
+          activeUsers: result.data.activeUsers || 0,
+          liveChannels: result.data.liveChannels || 0,
+          totalStreams: result.data.totalPodcasts || 0,
+          totalBandwidth: '2.4 TB',
+          avgConcurrentViewers: 0,
+          growth: { users: 12.5, streams: 8.3, revenue: 15.7 }
+        });
+      }
 
       // Load top live channels
       const { data: channels } = await supabase
@@ -42,16 +61,6 @@ const AdminPanel = () => {
         .eq('is_live', true)
         .order('current_viewers', { ascending: false })
         .limit(5);
-
-      setStats({
-        totalUsers: usersCount.count || 0,
-        activeUsers: Math.floor((usersCount.count || 0) * 0.3),
-        liveChannels: liveChannelsCount.count || 0,
-        totalStreams: podcastsCount.count || 0,
-        totalBandwidth: '2.4 TB',
-        avgConcurrentViewers: channels?.reduce((sum, ch) => sum + (ch.current_viewers || 0), 0) || 0,
-        growth: { users: 12.5, streams: 8.3, revenue: 15.7 }
-      });
 
       setTopChannels(channels || []);
       setLoading(false);
