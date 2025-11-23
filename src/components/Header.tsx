@@ -1,11 +1,17 @@
-import { Radio, Users, Shield } from "lucide-react";
+import { Radio, Users, Shield, LogOut } from "lucide-react";
+import { Button } from "./ui/button";
+
 interface HeaderProps {
   activeRole: "listener" | "broadcaster" | "admin" | null;
   onRoleSelect: (role: "listener" | "broadcaster" | "admin") => void;
+  userRole?: string | null;
+  onSignOut?: () => void;
 }
 const Header = ({
   activeRole,
-  onRoleSelect
+  onRoleSelect,
+  userRole,
+  onSignOut
 }: HeaderProps) => {
   return <header className="relative mb-10 overflow-hidden rounded-3xl glass p-8 md:p-12" role="banner">
       {/* Skip to content for accessibility */}
@@ -36,8 +42,23 @@ const Header = ({
         {/* Role selector */}
         <nav className="flex flex-wrap justify-center gap-4 mt-10" aria-label="Role selection" role="navigation">
           <RoleButton icon={<Users className="w-5 h-5" />} label="Listener" role="listener" active={activeRole === "listener"} onClick={() => onRoleSelect("listener")} gradient="gradient-primary" />
-          <RoleButton icon={<Radio className="w-5 h-5" />} label="Broadcaster" role="broadcaster" active={activeRole === "broadcaster"} onClick={() => onRoleSelect("broadcaster")} gradient="gradient-secondary" />
-          <RoleButton icon={<Shield className="w-5 h-5" />} label="Admin" role="admin" active={activeRole === "admin"} onClick={() => onRoleSelect("admin")} gradient="gradient-warning" />
+          {(userRole === 'broadcaster' || userRole === 'admin') && (
+            <RoleButton icon={<Radio className="w-5 h-5" />} label="Broadcaster" role="broadcaster" active={activeRole === "broadcaster"} onClick={() => onRoleSelect("broadcaster")} gradient="gradient-secondary" />
+          )}
+          {userRole === 'admin' && (
+            <RoleButton icon={<Shield className="w-5 h-5" />} label="Admin" role="admin" active={activeRole === "admin"} onClick={() => onRoleSelect("admin")} gradient="gradient-warning" />
+          )}
+          {onSignOut && (
+            <Button
+              variant="ghost"
+              size="sm"
+              onClick={onSignOut}
+              className="px-6 py-4 rounded-full font-semibold"
+            >
+              <LogOut className="w-5 h-5 mr-2" />
+              Sign Out
+            </Button>
+          )}
         </nav>
       </div>
     </header>;
