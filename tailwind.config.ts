@@ -21,38 +21,31 @@ export default {
         foreground: "hsl(var(--foreground))",
         primary: {
           DEFAULT: "hsl(var(--primary))",
-          foreground: "hsl(var(--primary-foreground))",
-          start: "hsl(var(--primary-start))",
-          end: "hsl(var(--primary-end))",
+          foreground: "hsl(var(--foreground))",
+          dark: "hsl(var(--primary-dark))",
+          glow: "hsl(var(--primary-glow))",
         },
         secondary: {
           DEFAULT: "hsl(var(--secondary))",
-          foreground: "hsl(var(--secondary-foreground))",
-          start: "hsl(var(--secondary-start))",
-          end: "hsl(var(--secondary-end))",
+          foreground: "hsl(var(--foreground))",
+          dark: "hsl(var(--secondary-dark))",
         },
         accent: {
           DEFAULT: "hsl(var(--accent))",
-          foreground: "hsl(var(--accent-foreground))",
-          start: "hsl(var(--accent-start))",
-          end: "hsl(var(--accent-end))",
+          foreground: "hsl(var(--foreground))",
+          dark: "hsl(var(--accent-dark))",
         },
         success: {
           DEFAULT: "hsl(var(--success))",
-          foreground: "hsl(var(--success-foreground))",
-          start: "hsl(var(--success-start))",
-          end: "hsl(var(--success-end))",
+          foreground: "hsl(var(--foreground))",
+          dark: "hsl(var(--success-dark))",
         },
         warning: {
           DEFAULT: "hsl(var(--warning))",
-          foreground: "hsl(var(--warning-foreground))",
-          start: "hsl(var(--warning-start))",
-          end: "hsl(var(--warning-end))",
+          foreground: "hsl(var(--foreground))",
+          light: "hsl(var(--warning-light))",
         },
-        live: {
-          DEFAULT: "hsl(var(--live))",
-          glow: "hsl(var(--live-glow))",
-        },
+        live: "#dc2626",
         destructive: {
           DEFAULT: "hsl(var(--destructive))",
           foreground: "hsl(var(--destructive-foreground))",
@@ -78,11 +71,23 @@ export default {
       backdropBlur: {
         glass: "20px",
       },
+      backgroundImage: {
+        "gradient-primary": "var(--gradient-primary)",
+        "gradient-secondary": "var(--gradient-secondary)",
+        "gradient-accent": "var(--gradient-accent)",
+        "gradient-success": "var(--gradient-success)",
+        "gradient-warning": "var(--gradient-warning)",
+        "gradient-dark": "var(--gradient-dark)",
+        "gradient-rainbow": "var(--gradient-rainbow)",
+        "gradient-mesh": "var(--gradient-mesh)",
+      },
       boxShadow: {
-        primary: "0 8px 32px hsl(var(--shadow-primary))",
-        secondary: "0 8px 32px hsl(var(--shadow-secondary))",
-        accent: "0 8px 32px hsl(var(--shadow-accent))",
-        glow: "0 0 30px hsl(var(--live-glow) / 0.6)",
+        "glow-sm": "var(--shadow-sm)",
+        "glow-md": "var(--shadow-md)",
+        "glow-lg": "var(--shadow-lg)",
+        "glow": "var(--shadow-glow)",
+        "glow-primary": "var(--shadow-primary)",
+        "glow-secondary": "var(--shadow-secondary)",
       },
       borderRadius: {
         lg: "var(--radius)",
@@ -106,45 +111,39 @@ export default {
             height: "0",
           },
         },
-        slideInLeft: {
-          from: { transform: "translateX(-100%)", opacity: "0" },
-          to: { transform: "translateX(0)", opacity: "1" },
+        "gradient-shift": {
+          "0%, 100%": { backgroundPosition: "0% 50%" },
+          "50%": { backgroundPosition: "100% 50%" },
         },
-        slideInRight: {
-          from: { transform: "translateX(100%)", opacity: "0" },
-          to: { transform: "translateX(0)", opacity: "1" },
+        "pulse-glow": {
+          "0%, 100%": { opacity: "1", transform: "scale(1)" },
+          "50%": { opacity: "0.8", transform: "scale(1.05)" },
         },
-        slideInUp: {
-          from: { transform: "translateY(20px)", opacity: "0" },
-          to: { transform: "translateY(0)", opacity: "1" },
+        rotate: {
+          "100%": { transform: "rotate(360deg)" },
         },
-        scaleIn: {
-          from: { transform: "scale(0.9)", opacity: "0" },
-          to: { transform: "scale(1)", opacity: "1" },
+        fadeIn: {
+          from: { opacity: "0", transform: "translateY(10px)" },
+          to: { opacity: "1", transform: "translateY(0)" },
         },
-        bounce: {
-          "0%, 100%": { transform: "translateY(0)" },
-          "50%": { transform: "translateY(-10px)" },
+        glow: {
+          "0%, 100%": { boxShadow: "0 0 20px hsl(var(--primary) / 0.5)" },
+          "50%": { boxShadow: "0 0 40px hsl(var(--primary) / 0.8)" },
         },
-        shimmer: {
-          "0%": { backgroundPosition: "-1000px 0" },
-          "100%": { backgroundPosition: "1000px 0" },
+        gradientShift: {
+          "0%, 100%": { backgroundPosition: "0% 50%" },
+          "50%": { backgroundPosition: "100% 50%" },
         },
       },
       animation: {
         "accordion-down": "accordion-down 0.2s ease-out",
         "accordion-up": "accordion-up 0.2s ease-out",
-        pulse: "pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite",
+        "gradient-shift": "gradient-shift 4s ease-in-out infinite",
+        "pulse-glow": "pulse-glow 2s ease-in-out infinite",
         rotate: "rotate 30s linear infinite",
         fadeIn: "fadeIn 0.5s ease-in-out",
         glow: "glow 2s ease-in-out infinite",
         gradientShift: "gradientShift 4s ease-in-out infinite",
-        slideInLeft: "slideInLeft 0.3s ease-out",
-        slideInRight: "slideInRight 0.3s ease-out",
-        slideInUp: "slideInUp 0.3s ease-out",
-        scaleIn: "scaleIn 0.2s ease-out",
-        bounce: "bounce 1s ease-in-out infinite",
-        shimmer: "shimmer 2s infinite",
       },
       transitionDuration: {
         '400': '400ms',
