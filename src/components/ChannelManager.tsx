@@ -8,6 +8,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { useToast } from '@/hooks/use-toast';
 import { Radio, Copy, Eye, Upload } from 'lucide-react';
+import { PodcastUpload } from '@/components/PodcastUpload';
 
 const ChannelManager = () => {
   const [channel, setChannel] = useState<any>(null);
@@ -206,6 +207,9 @@ const ChannelManager = () => {
 
   return (
     <div className="space-y-6">
+      {/* AI-Powered Podcast Upload */}
+      <PodcastUpload channelId={channel.id} />
+      
       <Card>
         <CardHeader>
           <CardTitle className="flex items-center gap-2">

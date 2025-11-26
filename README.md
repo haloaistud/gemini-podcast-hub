@@ -13,6 +13,13 @@ A professional full-stack podcast broadcasting and streaming platform built with
   - 📡 **Broadcaster**: Create channels, manage streams, upload podcasts
   - 🛡️ **Admin**: Platform analytics, user management, moderation
 
+### 🤖 AI-Powered Features (Lovable AI)
+- **Auto Content Analysis**: AI generates summaries and descriptions for uploaded podcasts
+- **Smart Tagging**: Automatic topic extraction from podcast content
+- **SEO Optimization**: AI-generated search-optimized descriptions
+- **Personalized Recommendations**: AI suggests relevant content based on listening history
+- **Sentiment Analysis**: Understand content tone and engagement
+
 ### 📺 Live Streaming
 - **Channel Creation**: Broadcasters can create and manage their own channels
 - **Stream Management**: Go live/offline with real-time status updates
@@ -27,6 +34,7 @@ A professional full-stack podcast broadcasting and streaming platform built with
 - **User Authentication**: Only logged-in users can chat
 
 ### 🎵 Content Management
+- **Podcast Upload**: Upload audio files with AI processing
 - **Multi-Channel Support**: Users can create and manage channels
 - **Subscription System**: Follow favorite channels
 - **Category Organization**: Technology, Business, Gaming, Music, etc.
@@ -91,7 +99,15 @@ The app will be available at `http://localhost:5173`
    - Fill in channel name, description, category
    - Get your unique stream key
 
-3. **Set Up Streaming Software**
+3. **Upload Podcasts (AI-Powered)**
+   - Upload audio file (MP3, WAV, M4A)
+   - AI automatically generates:
+     - Content summary
+     - Topic tags
+     - SEO description
+   - Podcast auto-publishes after processing
+
+4. **Set Up Live Streaming**
    - Download OBS Studio or similar
    - Copy your stream key from the dashboard
    - Configure OBS with the RTMP server URL and stream key
