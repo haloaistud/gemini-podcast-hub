@@ -1,5 +1,6 @@
-import { Radio, Users, Shield, LogOut } from "lucide-react";
+import { Radio, Users, Shield, LogOut, Film } from "lucide-react";
 import { Button } from "./ui/button";
+import { Link } from "react-router-dom";
 
 interface HeaderProps {
   activeRole: "listener" | "broadcaster" | "admin" | null;
